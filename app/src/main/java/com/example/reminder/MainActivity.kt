@@ -25,11 +25,13 @@ class MainActivity : AppCompatActivity() {
             checkLoginStatus()
         }
 
+        //opens new user creation
         findViewById<Button>(R.id.newUser).setOnClickListener{
             startActivity(Intent(applicationContext, NewUser::class.java))
         }
     }
 
+    //function for checking username and password
     private fun checkLoginStatus() {
         val userName = applicationContext.getSharedPreferences("com.example.reminder", Context.MODE_PRIVATE).getString("Username", "")
         val passWord = applicationContext.getSharedPreferences("com.example.reminder", Context.MODE_PRIVATE).getString("Password", "")

@@ -7,6 +7,8 @@ import android.widget.Button
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 
+//screen which will show the reminders in the future using ListView
+
 class SecondScreen : AppCompatActivity() {
 
 
@@ -23,11 +25,14 @@ class SecondScreen : AppCompatActivity() {
           //  startActivity()
         //)
 
+        //handles loggin out from software. Sets LoginStatus to 0 so that when application opens it is logged off
+        //and closes the application
         findViewById<Button>(R.id.logoutButton).setOnClickListener {
             applicationContext.getSharedPreferences("com.example.reminder", Context.MODE_PRIVATE).edit().putInt("LoginStatus", 0).apply()
             finishAffinity()
         }
 
+        //check if profile button has been pressed and switches to profile view
         findViewById<Button>(R.id.ProfileButton).setOnClickListener{
             startActivity(Intent(applicationContext, ProfileView::class.java))
         }

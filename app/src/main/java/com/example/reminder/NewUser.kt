@@ -12,12 +12,13 @@ class NewUser : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_user)
 
+            //when create button is pressed return to log in screen
         findViewById<Button>(R.id.createNewUserBtn).setOnClickListener{
             createUser()
             startActivity(Intent(applicationContext, MainActivity::class.java))
         }
     }
-
+    //takes input from username and password textfields and puts those the sharedpreferences.
     private fun createUser() {
         val inputUsername = findViewById<TextView>(R.id.newUsername).text.toString()
         val inputPassword = findViewById<TextView>(R.id.newPassword).text.toString()
