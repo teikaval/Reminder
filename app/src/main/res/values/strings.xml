@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Reminder</string>
+    <string name="loginimage">logInImage</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log in</string>
+    <string name="sharedPreference">com.example.reminder.</string>
+    <string name="txtreminder">txtReminder</string>
+    <string name="addreminder">addReminder</string>
+    <string name="otsikko">Otsikko</string>
+    <string name="log_out">Log out</string>
+    <string name="welcome_to_reminder_app">Welcome to reminder app</string>
+    <string name="new_user">New user</string>
+    <string name="please_create_new_user">Please create new user</string>
+    <string name="create">Create</string>
+    <string name="profile">Profile</string>
+</resources>
