@@ -8,28 +8,25 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 
 val myStringArray = mutableListOf<String>("Teemu")
-
+//Handles the ListView for the SecondScreen which holds the reminders
 class ListAdapter (private val context: Context,
 private val list: MutableList<String> = myStringArray) : BaseAdapter() {
 
     private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-    //1
+
     override fun getCount(): Int {
         return list.size
     }
 
-    //2
     override fun getItem(position: Int): Any {
         return list[position]
     }
 
-    //3
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }
 
-    //4
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         // Get view for row item
         val rowView = inflater.inflate(R.layout.reminderitem, parent, false)
