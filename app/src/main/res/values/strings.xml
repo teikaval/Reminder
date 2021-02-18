@@ -14,4 +14,5 @@
     <string name="please_create_new_user">Please create new user</string>
     <string name="create">Create</string>
     <string name="profile">Profile</string>
+    <string name="dbFileName">com.example.reminder</string>
 </resources>

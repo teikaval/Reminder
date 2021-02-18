@@ -6,14 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import com.example.reminder.db.ReminderInfo
+import com.example.reminder.databinding.ReminderitemBinding
 
-val myStringArray = mutableListOf<String>("Teemu")
+
 //Handles the ListView for the SecondScreen which holds the reminders
-class ListAdapter (private val context: Context,
-private val list: MutableList<String> = myStringArray) : BaseAdapter() {
+class ListAdapter (context: Context, private val list: List<ReminderInfo>) : BaseAdapter() {
 
     private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
+    override fun getView(position: Int, convertView: View?, container: ViewGroup?): View {
+        val rowBinding = ReminderitemBinding.inflate(inflater, container, false)
+        rowBinding.reminderheading.text = list[position].heading
+        rowBinding.remindertext.text = list[position].text
+
+        return rowBinding.root
+    }
 
     override fun getCount(): Int {
         return list.size
@@ -27,16 +35,4 @@ private val list: MutableList<String> = myStringArray) : BaseAdapter() {
         return position.toLong()
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        // Get view for row item
-        val rowView = inflater.inflate(R.layout.reminderitem, parent, false)
-        val headingTextView = rowView.findViewById(R.id.reminderheading) as TextView
-        val detailTextView = rowView.findViewById(R.id.remindertext) as TextView
-
-        //val reminder = getItem(position) as Reminder
-        headingTextView.text = list[0]
-        detailTextView.text = list[1]
-
-        return rowView
-    }
 }
