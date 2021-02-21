@@ -5,9 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.TextView
-import com.example.reminder.db.ReminderInfo
 import com.example.reminder.databinding.ReminderitemBinding
+import com.example.reminder.db.ReminderInfo
 
 
 //Handles the ListView for the SecondScreen which holds the reminders
@@ -18,7 +17,8 @@ class ListAdapter (context: Context, private val list: List<ReminderInfo>) : Bas
     override fun getView(position: Int, convertView: View?, container: ViewGroup?): View {
         val rowBinding = ReminderitemBinding.inflate(inflater, container, false)
         rowBinding.reminderheading.text = list[position].heading
-        rowBinding.remindertext.text = list[position].text
+        rowBinding.remindertext.text = list[position].message
+        rowBinding.reminderDateShow.text = list[position].reminder_time
 
         return rowBinding.root
     }

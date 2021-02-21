@@ -7,21 +7,45 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/headingTextview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Heading:"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/reminderheading"
         android:layout_width="match_parent"
-        android:layout_height="53dp"
+        android:layout_height="30dp"
         android:text="@string/otsikko" />
 
-    <View
-        android:id="@+id/headingdivider"
+    <TextView
+        android:id="@+id/dateTextView"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/teal_200" />
+        android:layout_height="wrap_content"
+        android:text="Reminder time:"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/reminderDateShow"
+        android:layout_width="match_parent"
+        android:layout_height="29dp"
+        android:text="@string/paivamaara" />
+
+    <TextView
+        android:id="@+id/dataTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Message:"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/remindertext"
         android:layout_width="match_parent"
-        android:layout_height="107dp"
+        android:layout_height="55dp"
         android:text="@string/txtreminder"
         tools:text="Tekstia" />
 

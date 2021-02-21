@@ -50,7 +50,11 @@ class SecondScreen : AppCompatActivity() {
         }
 
         listView.onItemClickListener = AdapterView.OnItemClickListener{_, _, position, id ->
-        startActivity(Intent(applicationContext, EditReminderView::class.java))
+            val selectedReminder = listView.adapter.getItem(position) as ReminderInfo
+            val reminderID = selectedReminder.uid
+            val intent = Intent(applicationContext, EditReminderView::class.java)
+            intent.putExtra("reminderID", reminderID)
+            startActivity(intent)
         }
 
         listView.onItemLongClickListener = AdapterView.OnItemLongClickListener { _, _, position, id ->
