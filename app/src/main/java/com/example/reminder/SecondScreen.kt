@@ -49,6 +49,7 @@ class SecondScreen : AppCompatActivity() {
             startActivity(Intent(applicationContext, ProfileView::class.java))
         }
 
+        //Checks if item in the ListView has been pressed and switches to the editing of reminder
         listView.onItemClickListener = AdapterView.OnItemClickListener{_, _, position, id ->
             val selectedReminder = listView.adapter.getItem(position) as ReminderInfo
             val reminderID = selectedReminder.uid
@@ -57,6 +58,7 @@ class SecondScreen : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //Checks if item has been pressed and held for a while to delete item in the ListView
         listView.onItemLongClickListener = AdapterView.OnItemLongClickListener { _, _, position, id ->
             val selectedReminder = listView.adapter.getItem(position) as ReminderInfo
                 AsyncTask.execute {
@@ -69,17 +71,18 @@ class SecondScreen : AppCompatActivity() {
             }
         }
 
-
+         //function to refresh list when resuming (from exercises)
          override fun onResume() {
             super.onResume()
             refreshListView()
         }
-
+    //function for refreshing listview (from exercises)
         private fun refreshListView() {
             var refreshTask = LoadReminderEntries()
             refreshTask.execute()
         }
 
+    //loads all reminders into list for the listview (modified from exercises)
      inner class LoadReminderEntries : AsyncTask<String?, String?, List<ReminderInfo>>() {
         override fun doInBackground(vararg params: String?): List<ReminderInfo> {
             val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, getString(R.string.dbFileName)).build()
@@ -87,7 +90,7 @@ class SecondScreen : AppCompatActivity() {
             db.close()
             return reminderInfos
         }
-
+        //if list is empty lets not show anything in the listview
         override fun onPostExecute(reminderInfos: List<ReminderInfo>?) {
             super.onPostExecute(reminderInfos)
             if (reminderInfos != null) {

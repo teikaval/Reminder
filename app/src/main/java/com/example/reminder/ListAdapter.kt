@@ -9,7 +9,7 @@ import com.example.reminder.databinding.ReminderitemBinding
 import com.example.reminder.db.ReminderInfo
 
 
-//Handles the ListView for the SecondScreen which holds the reminders
+//Handles the ListView for the SecondScreen which holds the reminders modified from exercises
 class ListAdapter (context: Context, private val list: List<ReminderInfo>) : BaseAdapter() {
 
     private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater

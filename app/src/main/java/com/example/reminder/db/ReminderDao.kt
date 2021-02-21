@@ -1,7 +1,7 @@
 package com.example.reminder.db
 
 import androidx.room.*
-
+//database object modified from exercises
 @Dao
 interface ReminderDao {
     @Transaction
@@ -14,6 +14,7 @@ interface ReminderDao {
     @Query("SELECT * FROM reminderInfo")
     fun getReminderInfos(): List<ReminderInfo>
 
+    //handles updating of the database
     @Update(onConflict = OnConflictStrategy.IGNORE)
     fun updateReminder(reminderInfo: ReminderInfo)
 }

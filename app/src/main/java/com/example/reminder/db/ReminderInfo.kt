@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-
+//database table modified from exercises
 @Entity(tableName = "reminderInfo")
 data class ReminderInfo(
         @PrimaryKey(autoGenerate = true) var uid: Int?,

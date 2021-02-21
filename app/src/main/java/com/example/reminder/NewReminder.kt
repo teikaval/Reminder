@@ -9,15 +9,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
 import com.example.reminder.db.AppDatabase
 import com.example.reminder.db.ReminderInfo
-
+//This activity will handle creation of new reminders
 class NewReminder : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_reminder)
+
+        //if user cancels the creation of new reminder lets return back to the SecondsScreen
         findViewById<Button>(R.id.cancelReminderBtn).setOnClickListener {
             startActivity(Intent(applicationContext, SecondScreen::class.java))
         }
-
+        //if user presses the add button lets import new reminder to database
         findViewById<Button>(R.id.addReminderBtn).setOnClickListener{
             //here needs to be steps to save data to the room database
             val reminderInfo = ReminderInfo(null,
@@ -36,6 +38,7 @@ class NewReminder : AppCompatActivity() {
                 val uuid = db.reminderDao().insert(reminderInfo).toInt()
                 db.close()
             }
+            //lets return back to the SecondScreen after creation has completed
             startActivity(Intent(applicationContext, SecondScreen::class.java))
         }
     }
