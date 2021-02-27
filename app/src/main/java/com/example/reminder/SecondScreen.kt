@@ -20,6 +20,9 @@ import com.example.reminder.databinding.ActivitySecondScreenBinding
 import com.example.reminder.db.AppDatabase
 import com.example.reminder.db.ReminderInfo
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 
@@ -89,6 +92,7 @@ class SecondScreen : AppCompatActivity() {
     //function for refreshing listview (from exercises)
         private fun refreshListView() {
             var refreshTask = LoadReminderEntries()
+            println("Käsketty mennä päivittämään näyttö:")
             refreshTask.execute()
         }
 
@@ -96,6 +100,38 @@ class SecondScreen : AppCompatActivity() {
      inner class LoadReminderEntries : AsyncTask<String?, String?, List<ReminderInfo>>() {
         override fun doInBackground(vararg params: String?): List<ReminderInfo> {
             val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, getString(R.string.dbFileName)).build()
+            val reminderInfos2 = db.reminderDao().getAllReminderInfos()
+            for (i in reminderInfos2.indices) {
+                println("Otsikko on: ${reminderInfos2[i].heading}")
+                val reminderCalender = GregorianCalendar.getInstance()
+                val dateFormat = "dd.MM.yyyy" // change this format to dd.MM.yyyy if you have not time in your date.
+                // a better way of handling dates but requires API version 26 (Build.VERSION_CODES.O)
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    val formatter = DateTimeFormatter.ofPattern(dateFormat)
+                    val date = LocalDate.parse(reminderInfos2[i].reminder_time.toString(), formatter)
+
+                    reminderCalender.set(Calendar.YEAR, date.year)
+                    reminderCalender.set(Calendar.MONTH, date.monthValue - 1)
+                    reminderCalender.set(Calendar.DAY_OF_MONTH, date.dayOfMonth)
+
+                } else {
+
+                    val dateparts = reminderInfos2[i].reminder_time.toString().split(".").toTypedArray()
+                    reminderCalender.set(Calendar.YEAR, dateparts[2].toInt())
+                    reminderCalender.set(Calendar.MONTH, dateparts[1].toInt() - 1)
+                    reminderCalender.set(Calendar.DAY_OF_MONTH, dateparts[0].toInt())
+                }
+                if (reminderCalender.timeInMillis < Calendar.getInstance().timeInMillis && reminderInfos2[i].reminder_seen != 0) {
+                    val uuuid: Int? = reminderInfos2[i].uid
+                    if (uuuid != null) {
+                        db.reminderDao().updateSeen(uuuid)
+                        println("Tietokanta muokkaus käsketty")
+                        //db.close()
+                    }
+                }
+
+            }
             val reminderInfos = db.reminderDao().getReminderInfos()
             db.close()
             return reminderInfos

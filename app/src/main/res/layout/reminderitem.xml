@@ -35,6 +35,20 @@
         android:text="@string/paivamaara" />
 
     <TextView
+        android:id="@+id/creatorText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Creator:"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/creatorDataText"
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:text="creator_id" />
+
+    <TextView
         android:id="@+id/dataTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

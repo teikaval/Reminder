@@ -19,6 +19,7 @@ class ListAdapter (context: Context, private val list: List<ReminderInfo>) : Bas
         rowBinding.reminderheading.text = list[position].heading
         rowBinding.remindertext.text = list[position].message
         rowBinding.reminderDateShow.text = list[position].reminder_time
+        rowBinding.creatorDataText.text = list[position].creator_id
 
         return rowBinding.root
     }
