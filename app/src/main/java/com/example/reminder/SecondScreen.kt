@@ -89,24 +89,22 @@ class SecondScreen : AppCompatActivity() {
             super.onResume()
             refreshListView()
         }
-    //function for refreshing listview (from exercises)
+    //function for refreshing listview (from exercises) and also modifies the reminder_seen item
         private fun refreshListView() {
             var refreshTask = LoadReminderEntries()
-            println("Käsketty mennä päivittämään näyttö:")
             refreshTask.execute()
         }
 
-    //loads all reminders into list for the listview (modified from exercises)
+    //loads all reminders into list for the listview (modified from exercises) and also modifies the reminder_seen
      inner class LoadReminderEntries : AsyncTask<String?, String?, List<ReminderInfo>>() {
         override fun doInBackground(vararg params: String?): List<ReminderInfo> {
             val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, getString(R.string.dbFileName)).build()
-            val reminderInfos2 = db.reminderDao().getAllReminderInfos()
-            for (i in reminderInfos2.indices) {
-                println("Otsikko on: ${reminderInfos2[i].heading}")
+            val reminderInfos2 = db.reminderDao().getAllReminderInfos() //temporary value witch will hold all reminders
+            for (i in reminderInfos2.indices) { //lets loop over every item
+                //calendar datetime items
                 val reminderCalender = GregorianCalendar.getInstance()
-                val dateFormat = "dd.MM.yyyy" // change this format to dd.MM.yyyy if you have not time in your date.
-                // a better way of handling dates but requires API version 26 (Build.VERSION_CODES.O)
-
+                val dateFormat = "dd.MM.yyyy"
+                //build version check
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     val formatter = DateTimeFormatter.ofPattern(dateFormat)
                     val date = LocalDate.parse(reminderInfos2[i].reminder_time.toString(), formatter)
@@ -122,12 +120,11 @@ class SecondScreen : AppCompatActivity() {
                     reminderCalender.set(Calendar.MONTH, dateparts[1].toInt() - 1)
                     reminderCalender.set(Calendar.DAY_OF_MONTH, dateparts[0].toInt())
                 }
+                //if reminder has happened and reminder_seen is not 0 set it to 0
                 if (reminderCalender.timeInMillis < Calendar.getInstance().timeInMillis && reminderInfos2[i].reminder_seen != 0) {
                     val uuuid: Int? = reminderInfos2[i].uid
                     if (uuuid != null) {
                         db.reminderDao().updateSeen(uuuid)
-                        println("Tietokanta muokkaus käsketty")
-                        //db.close()
                     }
                 }
 
@@ -152,6 +149,7 @@ class SecondScreen : AppCompatActivity() {
 
     }
 
+    //more notification handlers
     companion object {
 
         fun showNotification(context: Context, message: String) {

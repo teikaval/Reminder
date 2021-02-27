@@ -3,7 +3,7 @@ package com.example.reminder
 import android.content.Context
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-
+//from exercises handler for notifications
 class ReminderWorker(appContext:Context, workerParameters: WorkerParameters) :
         Worker(appContext,workerParameters) {
 

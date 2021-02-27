@@ -13,7 +13,7 @@ import com.example.reminder.db.ReminderInfo
 class ListAdapter (context: Context, private val list: List<ReminderInfo>) : BaseAdapter() {
 
     private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
+    //List of items that are to be shown in the listview
     override fun getView(position: Int, convertView: View?, container: ViewGroup?): View {
         val rowBinding = ReminderitemBinding.inflate(inflater, container, false)
         rowBinding.reminderheading.text = list[position].heading

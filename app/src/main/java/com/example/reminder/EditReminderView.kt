@@ -30,10 +30,11 @@ class EditReminderView : AppCompatActivity() {
 
         //if user presses the save button lets make changes to the database
         findViewById<Button>(R.id.editSaveChangesBtn).setOnClickListener {
+            //we need current date values for the notification from excercises
             val reminderCalender = GregorianCalendar.getInstance()
-            val dateFormat = "dd.MM.yyyy" // change this format to dd.MM.yyyy if you have not time in your date.
-            // a better way of handling dates but requires API version 26 (Build.VERSION_CODES.O)
+            val dateFormat = "dd.MM.yyyy"
 
+            //build version chech from excercises
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val formatter = DateTimeFormatter.ofPattern(dateFormat)
                 val date = LocalDate.parse(findViewById<TextView>(R.id.editReminderDate).text.toString(), formatter)
@@ -49,12 +50,14 @@ class EditReminderView : AppCompatActivity() {
                 reminderCalender.set(Calendar.DAY_OF_MONTH, dateparts[0].toInt())
             }
 
+            //lets check what our reminder_seen value should be
             var status: Int
             if (reminderCalender.timeInMillis > Calendar.getInstance().timeInMillis) {
                 status = 1
             }else {
                 status = 0
             }
+            //add values to the reminderInfo fields
             var username: String = applicationContext.getSharedPreferences("com.example.reminder", Context.MODE_PRIVATE).getString("Username", "").toString()
             val reminderInfo = ReminderInfo(
                     reminderID,
@@ -67,6 +70,7 @@ class EditReminderView : AppCompatActivity() {
                     location_x = 0.0,
                     location_y = 0.0)
 
+            //asynchronous task for database update
             AsyncTask.execute {
                 val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, getString(R.string.dbFileName)).build()
                 val uuid = db.reminderDao().updateReminder(reminderInfo)

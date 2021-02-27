@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 
+//from exercises handler for the notifications
 class ReminderReceiver :BroadcastReceiver(){
     override fun onReceive(context: Context?, intent: Intent?) {
         // Retrieve data from intent

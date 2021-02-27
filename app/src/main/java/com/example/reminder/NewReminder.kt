@@ -30,11 +30,11 @@ class NewReminder : AppCompatActivity() {
         }
         //if user presses the add button lets import new reminder to database
         findViewById<Button>(R.id.addReminderBtn).setOnClickListener {
-            //here needs to be steps to save data to the room database
-            val reminderCalender = GregorianCalendar.getInstance()
-            val dateFormat = "dd.MM.yyyy" // change this format to dd.MM.yyyy if you have not time in your date.
-            // a better way of handling dates but requires API version 26 (Build.VERSION_CODES.O)
 
+            //datetime for notifications
+            val reminderCalender = GregorianCalendar.getInstance()
+            val dateFormat = "dd.MM.yyyy"
+            //build version checker
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val formatter = DateTimeFormatter.ofPattern(dateFormat)
                 val date = LocalDate.parse(findViewById<TextView>(R.id.reminderDate).text.toString(), formatter)
@@ -50,12 +50,15 @@ class NewReminder : AppCompatActivity() {
                 reminderCalender.set(Calendar.MONTH, dateparts[1].toInt() - 1)
                 reminderCalender.set(Calendar.DAY_OF_MONTH, dateparts[0].toInt())
             }
+
+            //checks whether reminder_seen should be 1 or 0
             var status: Int
             if (reminderCalender.timeInMillis > Calendar.getInstance().timeInMillis) {
                 status = 1
             }else {
                 status = 0
             }
+                //lets get information to the database
                 var username: String = applicationContext.getSharedPreferences("com.example.reminder", Context.MODE_PRIVATE).getString("Username", "").toString()
                 val reminderInfo = ReminderInfo(
                     null,
@@ -68,7 +71,7 @@ class NewReminder : AppCompatActivity() {
                     location_x = 0.0,
                     location_y = 0.0)
 
-
+            //asynctask for database modification
             AsyncTask.execute {
                 val db = Room.databaseBuilder(
                         applicationContext,
@@ -78,6 +81,7 @@ class NewReminder : AppCompatActivity() {
                 val uuid = db.reminderDao().insert(reminderInfo).toInt()
                 db.close()
 
+                //if reminder is in the future lets set it up
                 if (reminderCalender.timeInMillis > Calendar.getInstance().timeInMillis) {
                     val message =
                             "Remember ${reminderInfo.heading} ${reminderInfo.message} is due ${reminderInfo.reminder_time}"
@@ -90,7 +94,7 @@ class NewReminder : AppCompatActivity() {
                 }
             }
 
-
+            //also give user a little toast that reminder is set
             if (reminderCalender.timeInMillis > Calendar.getInstance().timeInMillis) {
                 Toast.makeText(
                     applicationContext,
