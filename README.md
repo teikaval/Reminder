@@ -1,2 +1,2 @@
 # Reminder
-MobileComputingHomeWork1
+Mobile Computing HomeWork Repo
