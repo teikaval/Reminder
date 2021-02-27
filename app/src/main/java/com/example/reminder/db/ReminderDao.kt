@@ -12,7 +12,7 @@ interface ReminderDao {
     @Query("DELETE FROM reminderInfo WHERE uid = :id")
     fun delete(id: Int)
 
-    @Query("SELECT * FROM reminderInfo")
+    @Query("SELECT * FROM reminderInfo WHERE reminder_seen = 0")
     fun getReminderInfos(): List<ReminderInfo>
 
     //handles updating of the database

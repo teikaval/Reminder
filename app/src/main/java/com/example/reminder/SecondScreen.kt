@@ -98,8 +98,6 @@ class SecondScreen : AppCompatActivity() {
             val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, getString(R.string.dbFileName)).build()
             val reminderInfos = db.reminderDao().getReminderInfos()
             db.close()
-            println(reminderInfos)
-            val filteredList: List<ReminderInfo> = reminderInfos.drop()
             return reminderInfos
         }
 
