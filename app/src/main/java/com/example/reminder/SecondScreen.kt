@@ -1,18 +1,27 @@
 package com.example.reminder
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
+import android.os.Build
 import android.os.Bundle
 import android.widget.AdapterView
 import android.widget.Button
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import androidx.room.Room
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.reminder.databinding.ActivitySecondScreenBinding
 import com.example.reminder.db.AppDatabase
 import com.example.reminder.db.ReminderInfo
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.util.concurrent.TimeUnit
+import kotlin.random.Random
 
 
 
@@ -64,6 +73,7 @@ class SecondScreen : AppCompatActivity() {
                 AsyncTask.execute {
                     val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java,getString(R.string.dbFileName)).build()
                     db.reminderDao().delete(selectedReminder.uid!!)
+
                     refreshListView()
                     db.close()
                 }
@@ -88,8 +98,11 @@ class SecondScreen : AppCompatActivity() {
             val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, getString(R.string.dbFileName)).build()
             val reminderInfos = db.reminderDao().getReminderInfos()
             db.close()
+            println(reminderInfos)
+            val filteredList: List<ReminderInfo> = reminderInfos.drop()
             return reminderInfos
         }
+
         //if list is empty lets not show anything in the listview
         override fun onPostExecute(reminderInfos: List<ReminderInfo>?) {
             super.onPostExecute(reminderInfos)
@@ -105,4 +118,63 @@ class SecondScreen : AppCompatActivity() {
 
     }
 
+    companion object {
+
+        fun showNotification(context: Context, message: String) {
+
+            val CHANNEL_ID = "REMINDER_APP_NOTIFICATION_CHANNEL"
+            var notificationId = Random.nextInt(10, 1000) + 5
+
+            var notificationBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle(context.getString(R.string.app_name))
+                .setContentText(message)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(message))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setGroup(CHANNEL_ID)
+
+            val notificationManager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+            // Notification chancel needed since Android 8
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val channel = NotificationChannel(
+                    CHANNEL_ID,
+                    context.getString(R.string.app_name),
+                    NotificationManager.IMPORTANCE_DEFAULT
+                ).apply {
+                    description = context.getString(R.string.app_name)
+                }
+                notificationManager.createNotificationChannel(channel)
+            }
+
+            notificationManager.notify(notificationId, notificationBuilder.build())
+
+        }
+
+        fun setReminderWithWorkManager(
+            context: Context,
+            uid: Int,
+            timeInMillis: Long,
+            message: String
+        ) {
+
+            val reminderParameters = Data.Builder()
+                .putString("message", message)
+                .putInt("uid", uid)
+                .build()
+
+            // get minutes from now until reminder
+            var minutesFromNow = 0L
+            if (timeInMillis > System.currentTimeMillis()) //Change this arrow other way to test notifications
+                minutesFromNow = timeInMillis - System.currentTimeMillis()
+
+            val reminderRequest = OneTimeWorkRequestBuilder<ReminderWorker>()
+                .setInputData(reminderParameters)
+                .setInitialDelay(minutesFromNow, TimeUnit.MILLISECONDS)
+                .build()
+
+            WorkManager.getInstance(context).enqueue(reminderRequest)
+        }
     }
+}
