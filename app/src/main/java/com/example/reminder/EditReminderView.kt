@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
 import com.example.reminder.db.AppDatabase
@@ -75,7 +76,30 @@ class EditReminderView : AppCompatActivity() {
                 val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, getString(R.string.dbFileName)).build()
                 val uuid = db.reminderDao().updateReminder(reminderInfo)
                 db.close()
+
+                //if reminder is in the future lets set it up
+                if (reminderCalender.timeInMillis > Calendar.getInstance().timeInMillis) {
+                    val message =
+                            "Remember ${reminderInfo.heading} ${reminderInfo.message} is due ${reminderInfo.reminder_time}"
+                    SecondScreen.setReminderWithWorkManager(
+                            applicationContext,
+                            reminderID,
+                            reminderCalender.timeInMillis,
+                            message
+                    )
+                }
             }
+
+            //also give user a little toast that reminder is set
+            if (reminderCalender.timeInMillis > Calendar.getInstance().timeInMillis) {
+                Toast.makeText(
+                        applicationContext,
+                        "Reminder for future reminder saved.",
+                        Toast.LENGTH_SHORT
+                ).show()
+            }
+            finish()
+
             //return back to the SecondScreen
             startActivity(Intent(applicationContext, SecondScreen::class.java))
         }
