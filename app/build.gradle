@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.reminder"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -38,6 +38,8 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
     def room_version="2.2.6"
     def work_version="2.5.0"
 

@@ -44,4 +44,5 @@
         android:text="@string/profile"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"/>
+
 </RelativeLayout>

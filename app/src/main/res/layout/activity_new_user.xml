@@ -11,14 +11,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/username"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newUserHeading"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/newUserHeading" />
 
     <EditText
         android:id="@+id/newPassword"
@@ -27,12 +27,12 @@
         android:layout_marginTop="36dp"
         android:ems="10"
         android:hint="@string/password"
+        android:importantForAutofill="no"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newUsername"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/newUsername" />
 
     <TextView
         android:id="@+id/newUserHeading"

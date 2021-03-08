@@ -31,6 +31,13 @@ class EditReminderView : AppCompatActivity() {
 
         //if user presses the save button lets make changes to the database
         findViewById<Button>(R.id.editSaveChangesBtn).setOnClickListener {
+
+            if (findViewById<TextView>(R.id.editReminderDate).text.isEmpty()) {
+                Toast.makeText(applicationContext,
+                        "Date should not be left empty if you want to leave it out give random date from the past",
+                        Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             //we need current date values for the notification from excercises
             val reminderCalender = GregorianCalendar.getInstance()
             val dateFormat = "dd.MM.yyyy"

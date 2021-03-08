@@ -56,6 +56,7 @@ class SecondScreen : AppCompatActivity() {
             finishAffinity()
         }
 
+
         //check if profile button has been pressed and switches to profile view
         findViewById<Button>(R.id.ProfileButton).setOnClickListener {
             startActivity(Intent(applicationContext, ProfileView::class.java))

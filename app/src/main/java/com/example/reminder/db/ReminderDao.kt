@@ -1,6 +1,7 @@
 package com.example.reminder.db
 
 import androidx.room.*
+
 //database object modified from exercises
 
 @Dao
@@ -27,4 +28,8 @@ interface ReminderDao {
     //Updates the reminder seen so that the reminder will be shown in the list
     @Query("UPDATE reminderInfo SET reminder_seen = 0 WHERE uid = :id ")
     fun updateSeen(id: Int)
+
+    //Updates location_x and location_y based on the map click
+    //@Query("UPDATE reminderInfo SET location_x = :latlng.latitude, location_y = :latlng.longitude WHERE uid = :id")
+    //fun updateLocation(latlng:List<String>,  id:Int)
 }

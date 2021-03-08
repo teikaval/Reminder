@@ -17,4 +17,5 @@
     <string name="dbFileName">com.example.reminder</string>
     <string name="please_edit_reminder_information">Please edit reminder information</string>
     <string name="paivamaara">Paivamaara</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
